@@ -77,8 +77,10 @@
       .hide();
 
       $chart.on('mouseenter', tooltipSelector, displayTooltip.bind(this));
+      $chart.on('touchstart', tooltipSelector, displayTooltip.bind(this));
 
       $chart.on('mouseleave', tooltipSelector, hideTooltip.bind(this));
+      $chart.on('touchend', tooltipSelector, hideTooltip.bind(this));
 
       $chart.on('mousemove', function(event) {
         // For some reasons, on FF, we can't rely on event.offsetX and event.offsetY,
@@ -88,6 +90,11 @@
           left: (event.originalEvent.layerX || event.offsetX) - $toolTip.width() / 2 - 10,
           top: (event.originalEvent.layerY || event.offsetY) - $toolTip.height() - 40
         });
+      });
+
+      // Prevents scrolling during touch events
+      $chart.on('touchmove', function(event) {
+        event.preventDefault();
       });
     }
   };
